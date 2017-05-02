@@ -188,6 +188,7 @@ LOCAL_SHARED_LIBRARIES :=         \
         libstagefright            \
         libstagefright_foundation \
         libcutils                 \
+        libnativewindow           \
         libgui                    \
         libdl                     \
         libandroid_runtime
@@ -222,7 +223,7 @@ LOCAL_EXPORT_SHARED_LIBRARY_HEADERS := libwilhelm
 LOCAL_CFLAGS += -DLI_API= -fvisibility=hidden -UNDEBUG \
                 -DSL_API='__attribute__((visibility("default")))'
 LOCAL_CFLAGS += -Wall -Werror
-LOCAL_SHARED_LIBRARIES := libwilhelm liblog
+LOCAL_SHARED_LIBRARIES := libwilhelm liblog libui libnativewindow
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -236,5 +237,5 @@ LOCAL_EXPORT_SHARED_LIBRARY_HEADERS := libwilhelm
 LOCAL_CFLAGS += -DLI_API= -fvisibility=hidden -UNDEBUG \
                 -DXA_API='__attribute__((visibility("default")))'
 LOCAL_CFLAGS += -Wall -Werror
-LOCAL_SHARED_LIBRARIES := libwilhelm liblog
+LOCAL_SHARED_LIBRARIES := libwilhelm liblog libnativewindow
 include $(BUILD_SHARED_LIBRARY)
