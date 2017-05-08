@@ -18,7 +18,7 @@
 #include <utils/Log.h>
 
 #include "android/include/AacAdtsExtractor.h"
-#include "include/avc_utils.h"
+#include <avc_utils.h>
 
 
 namespace android {
