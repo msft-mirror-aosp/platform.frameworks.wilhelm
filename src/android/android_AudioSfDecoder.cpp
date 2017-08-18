@@ -262,7 +262,8 @@ void AudioSfDecoder::onPrepare() {
         return;
     }
 
-    sp<IMediaSource> source = extractor->getTrack(audioTrackIndex);
+    sp<MediaSource> source = MediaSource::CreateFromIMediaSource(
+            extractor->getTrack(audioTrackIndex));
     sp<MetaData> meta = source->getFormat();
 
     // we can't trust the OMXCodec (if there is one) to issue a INFO_FORMAT_CHANGED so we want
