@@ -17,11 +17,11 @@
 #ifndef AUDIO_SF_DECODER_H_
 #define AUDIO_SF_DECODER_H_
 
-#include <media/stagefright/DataSource.h>
-#include <media/stagefright/MediaSource.h>
+#include <media/DataSource.h>
+#include <media/MediaSource.h>
+#include <media/MediaExtractor.h>
 #include <media/stagefright/FileSource.h>
 #include <media/stagefright/MediaDefs.h>
-#include <media/stagefright/MediaExtractor.h>
 #include <media/stagefright/MetaData.h>
 #include "NuCachedSource2.h"
 #include "ThrottledSource.h"
