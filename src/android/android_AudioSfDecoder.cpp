@@ -23,7 +23,10 @@
 #include <binder/IServiceManager.h>
 #include <media/IMediaHTTPService.h>
 #include <media/stagefright/foundation/ADebug.h>
+#include <media/stagefright/DataSourceFactory.h>
+#include <media/stagefright/InterfaceUtils.h>
 #include <media/stagefright/MediaBuffer.h>
+#include <media/stagefright/MediaExtractorFactory.h>
 #include <media/stagefright/SimpleDecodingSource.h>
 
 
@@ -193,7 +196,7 @@ void AudioSfDecoder::onPrepare() {
         return;
 
     case kDataLocatorUri:
-        dataSource = DataSource::CreateFromURI(
+        dataSource = DataSourceFactory::CreateFromURI(
                 NULL /* XXX httpService */, mDataLocator.uriRef);
         if (dataSource == NULL) {
             SL_LOGE("AudioSfDecoder::onPrepare(): Error opening %s", mDataLocator.uriRef);
@@ -229,7 +232,7 @@ void AudioSfDecoder::onPrepare() {
 
     //---------------------------------
     // Instantiate and initialize the decoder attached to the data source
-    sp<IMediaExtractor> extractor = MediaExtractor::Create(dataSource);
+    sp<IMediaExtractor> extractor = MediaExtractorFactory::Create(dataSource);
     if (extractor == NULL) {
         SL_LOGE("AudioSfDecoder::onPrepare: Could not instantiate extractor.");
         notifyPrepared(ERROR_UNSUPPORTED);
@@ -262,7 +265,7 @@ void AudioSfDecoder::onPrepare() {
         return;
     }
 
-    sp<MediaSource> source = MediaSource::CreateFromIMediaSource(
+    sp<MediaSource> source = CreateMediaSourceFromIMediaSource(
             extractor->getTrack(audioTrackIndex));
     sp<MetaData> meta = source->getFormat();
 
