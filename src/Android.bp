@@ -209,6 +209,7 @@ cc_library_shared {
         "liblog",
         "libutils",
         "libmedia",
+        "libmedia_omx",
         "libmediaextractor",
         "libaudioclient",
         "libaudiomanager",
