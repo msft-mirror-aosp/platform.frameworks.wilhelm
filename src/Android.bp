@@ -190,12 +190,15 @@ cc_library_shared {
         */
     ],
 
-    include_dirs: [
-        "frameworks/native/include/media/openmax",
+    header_libs: [
+        "libOpenSLES_headers",
+        "media_plugin_headers",
     ],
 
-    header_libs: ["libOpenSLES_headers"],
-    export_header_lib_headers: ["libOpenSLES_headers"],
+    export_header_lib_headers: [
+        "libOpenSLES_headers",
+        "media_plugin_headers",
+    ],
 
     static_libs: [
         "libopensles_helper",
@@ -219,6 +222,11 @@ cc_library_shared {
 
         "libstagefright_http_support",
     ],
+
+    include_dirs: [
+        "frameworks/av/media/libstagefright/mpeg2ts",
+    ],
+
     export_shared_lib_headers: [
         "libmedia",
         "libstagefright",
