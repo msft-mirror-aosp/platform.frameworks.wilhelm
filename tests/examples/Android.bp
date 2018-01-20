@@ -7,7 +7,7 @@ cc_test {
     srcs: ["slesTestRecBuffQueue.cpp"],
 
     shared_libs: [
-        "libaudioutils",
+        "libaudioutils_system",
         "libOpenSLES",
     ],
 
@@ -44,7 +44,7 @@ cc_test {
     srcs: ["slesTestFeedback.cpp"],
 
     shared_libs: [
-        "libaudioutils",
+        "libaudioutils_system",
         "libOpenSLES",
     ],
 
