@@ -288,7 +288,7 @@ cc_test {
     srcs: ["playbq.cpp"],
 
     shared_libs: [
-        "libaudioutils_system",
+        "libaudioutils",
         "libnbaio",
         "liblog",
         "libOpenSLES",
