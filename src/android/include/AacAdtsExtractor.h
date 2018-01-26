@@ -20,7 +20,6 @@
 #include <utils/Vector.h>
 
 #include <media/DataSource.h>
-#include <media/MediaExtractor.h>
 #include <media/MediaSource.h>
 #include <media/stagefright/foundation/ABuffer.h>
 #include <media/stagefright/foundation/ADebug.h>
@@ -71,15 +70,12 @@ private:
 };
 
 
-class AacAdtsExtractor : public MediaExtractor {
+class AacAdtsExtractor : public RefBase {
 public:
     explicit AacAdtsExtractor(const sp<DataSource> &source);
 
-    virtual size_t countTracks();
     virtual sp<MediaSource> getTrack(size_t index);
-    virtual sp<MetaData> getTrackMetaData(size_t index, uint32_t flags);
 
-    virtual sp<MetaData> getMetaData();
 
 protected:
     virtual ~AacAdtsExtractor();

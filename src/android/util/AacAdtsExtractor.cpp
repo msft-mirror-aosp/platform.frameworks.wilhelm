@@ -165,40 +165,12 @@ AacAdtsExtractor::AacAdtsExtractor(const sp<DataSource> &source)
 AacAdtsExtractor::~AacAdtsExtractor() {
 }
 
-
-sp<MetaData> AacAdtsExtractor::getMetaData() {
-    sp<MetaData> meta = new MetaData;
-
-    if (mInitCheck != OK) {
-        return meta;
-    }
-
-    meta->setCString(kKeyMIMEType, MEDIA_MIMETYPE_AUDIO_AAC_ADTS);
-
-    return meta;
-}
-
-
-size_t AacAdtsExtractor::countTracks() {
-    return mInitCheck == OK ? 1 : 0;
-}
-
-
 sp<MediaSource> AacAdtsExtractor::getTrack(size_t index) {
     if (mInitCheck != OK || index != 0) {
         return NULL;
     }
 
     return new AacAdtsSource(mDataSource, mMeta, mFrameDurationUs);
-}
-
-
-sp<MetaData> AacAdtsExtractor::getTrackMetaData(size_t index, uint32_t flags) {
-    if (mInitCheck != OK || index != 0) {
-        return NULL;
-    }
-
-    return mMeta;
 }
 
 
