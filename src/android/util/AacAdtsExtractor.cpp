@@ -15,7 +15,7 @@
  */
 
 #include "sllog.h"
-#include <media/stagefright/foundation/avc_utils.h>
+#include <media/stagefright/MetaDataUtils.h>
 #include <utils/Log.h>
 
 #include "android/include/AacAdtsExtractor.h"
