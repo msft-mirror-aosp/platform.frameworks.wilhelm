@@ -203,6 +203,7 @@ cc_library_shared {
     static_libs: [
         "libopensles_helper",
         "libOpenSLESUT",
+        "libstagefright_metadatautils",
     ],
 
     shared_libs: [
