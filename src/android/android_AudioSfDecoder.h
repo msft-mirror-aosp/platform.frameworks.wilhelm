@@ -107,7 +107,7 @@ protected:
     int64_t mDurationUsec; // ANDROID_UNKNOWN_TIME if unknown
 
     // buffer passed from decoder to renderer
-    MediaBuffer *mDecodeBuffer;
+    MediaBufferBase *mDecodeBuffer;
 
     // mutex used to protect the decode buffer, the audio source and its running state
     Mutex       mBufferSourceLock;

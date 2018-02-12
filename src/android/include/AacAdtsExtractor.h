@@ -48,7 +48,7 @@ public:
     virtual sp<MetaData> getFormat();
 
     virtual status_t read(
-            MediaBuffer **buffer, const ReadOptions *options = NULL);
+            MediaBufferBase **buffer, const ReadOptions *options = NULL);
 
 protected:
     virtual ~AacAdtsSource();
