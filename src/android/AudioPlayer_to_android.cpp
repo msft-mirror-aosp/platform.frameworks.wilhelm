@@ -1695,6 +1695,9 @@ SLresult android_audioPlayer_realize(CAudioPlayer *pAudioPlayer, SLboolean async
                 pAudioPlayer->mSessionId);
         android::status_t status = pat->initCheck();
         if (status != android::NO_ERROR) {
+            // AudioTracks are meant to be refcounted, so their dtor is protected.
+            static_cast<void>(android::sp<android::AudioTrack>(pat));
+
             SL_LOGE("AudioTrack::initCheck status %u", status);
             // FIXME should return a more specific result depending on status
             result = SL_RESULT_CONTENT_UNSUPPORTED;
