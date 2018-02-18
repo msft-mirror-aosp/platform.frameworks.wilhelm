@@ -15,6 +15,7 @@
  */
 
 #include "sllog.h"
+#include <media/stagefright/MediaBuffer.h>
 #include <media/stagefright/MetaDataUtils.h>
 #include <utils/Log.h>
 
@@ -229,7 +230,7 @@ sp<MetaData> AacAdtsSource::getFormat() {
 
 
 status_t AacAdtsSource::read(
-        MediaBuffer **out, const ReadOptions *options) {
+        MediaBufferBase **out, const ReadOptions *options) {
     *out = NULL;
 
     int64_t seekTimeUs;
@@ -247,7 +248,7 @@ status_t AacAdtsSource::read(
         return ERROR_END_OF_STREAM;
     }
 
-    MediaBuffer *buffer;
+    MediaBufferBase *buffer;
     status_t err = mGroup->acquire_buffer(&buffer);
     if (err != OK) {
         return err;
