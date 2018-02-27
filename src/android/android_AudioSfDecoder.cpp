@@ -500,7 +500,7 @@ void AudioSfDecoder::onDecode() {
             if (mDecodeBuffer->range_length() == 0) {
                 timeUsec = ANDROID_UNKNOWN_TIME;
             } else {
-                CHECK(mDecodeBuffer->meta_data()->findInt64(kKeyTime, &timeUsec));
+                CHECK(mDecodeBuffer->meta_data().findInt64(kKeyTime, &timeUsec));
             }
         } else {
             // errors are handled below

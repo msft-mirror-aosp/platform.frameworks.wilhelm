@@ -124,7 +124,7 @@ AacAdtsExtractor::AacAdtsExtractor(const sp<DataSource> &source)
     SL_LOGV("AacAdtsExtractor has found sr=%d channel=%d", sr, channel);
 
     // Never fails
-    mMeta = MakeAACCodecSpecificData(profile, sf_index, channel);
+    MakeAACCodecSpecificData(*mMeta, profile, sf_index, channel);
 
     // Round up and get the duration of each frame
     mFrameDurationUs = (1024 * 1000000ll + (sr - 1)) / sr;
@@ -266,8 +266,8 @@ status_t AacAdtsSource::read(
     }
 
     buffer->set_range(0, frameSizeWithoutHeader);
-    buffer->meta_data()->setInt64(kKeyTime, mCurrentTimeUs);
-    buffer->meta_data()->setInt32(kKeyIsSyncFrame, 1);
+    buffer->meta_data().setInt64(kKeyTime, mCurrentTimeUs);
+    buffer->meta_data().setInt32(kKeyIsSyncFrame, 1);
 
     mOffset += frameSize;
     mCurrentTimeUs += mFrameDurationUs;
