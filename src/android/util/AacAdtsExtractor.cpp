@@ -93,6 +93,7 @@ static size_t getFrameSize(const sp<DataSource> &source, off64_t offset) {
 
 AacAdtsExtractor::AacAdtsExtractor(const sp<DataSource> &source)
     : mDataSource(source),
+      mMeta(new MetaData),
       mInitCheck(NO_INIT),
       mFrameDurationUs(0) {
 
