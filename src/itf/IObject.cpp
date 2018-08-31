@@ -629,11 +629,10 @@ void IObject_Destroy(SLObjectItf self)
     // The mutex is unlocked and destroyed by IObject_deinit, which is the last deinitializer
     memset(thiz, 0x55, clazz->mSize); // catch broken applications that continue using interfaces
                                         // was ifdef USE_DEBUG but safer to do this unconditionally
-    free(thiz);
-
     if (SL_OBJECTID_ENGINE == clazz->mSLObjectID) {
         CEngine_Destroyed((CEngine *) thiz);
     }
+    free(thiz);
 
     SL_LEAVE_INTERFACE_VOID
 }
