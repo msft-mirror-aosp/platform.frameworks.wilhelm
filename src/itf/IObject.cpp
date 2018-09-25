@@ -534,7 +534,7 @@ void IObject_Destroy(SLObjectItf self)
             break;
         case predestroy_error:
             SL_LOGE("Object::Destroy(%p) not allowed", thiz);
-            // fall through
+            FALLTHROUGH_INTENDED;
         case predestroy_again:
             object_unlock_exclusive(thiz);
             // unfortunately Destroy doesn't return a result
@@ -601,7 +601,7 @@ void IObject_Destroy(SLObjectItf self)
             }
             *interfaceStateP = INTERFACE_INITIALIZED;
             }
-            // fall through
+            FALLTHROUGH_INTENDED;
         case INTERFACE_INITIALIZED:
             {
             VoidHook deinit = MPH_init_table[x->mMPH].mDeinit;
