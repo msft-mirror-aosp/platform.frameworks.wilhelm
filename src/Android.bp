@@ -264,6 +264,7 @@ cc_library_shared {
         "liblog",
         "libnativewindow",
     ],
+    version_script: "libOpenSLES.map.txt",
 }
 
 cc_library_shared {
@@ -293,4 +294,5 @@ cc_library_shared {
         "liblog",
         "libnativewindow",
     ],
+    version_script: "libOpenMAXAL.map.txt",
 }
