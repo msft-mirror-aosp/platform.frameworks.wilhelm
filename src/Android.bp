@@ -221,8 +221,6 @@ cc_library_shared {
         "libbinder",
         "libstagefright",
         "libstagefright_foundation",
-        "libcutils",
-        "libnativewindow",
         "libgui",
         "libdl",
         "libandroid_runtime",
