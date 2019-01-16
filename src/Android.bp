@@ -215,7 +215,6 @@ cc_library_shared {
         "libutils",
         "libmedia",
         "libmedia_omx",
-        "libmediaextractor",
         "libaudioclient",
         "libaudiomanager",
         "libbinder",
