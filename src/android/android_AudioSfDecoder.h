@@ -17,12 +17,12 @@
 #ifndef AUDIO_SF_DECODER_H_
 #define AUDIO_SF_DECODER_H_
 
+#include <datasource/FileSource.h>
+#include <datasource/NuCachedSource2.h>
 #include <media/DataSource.h>
 #include <media/MediaSource.h>
-#include <media/stagefright/FileSource.h>
 #include <media/stagefright/MediaDefs.h>
 #include <media/stagefright/MetaData.h>
-#include "NuCachedSource2.h"
 #include "ThrottledSource.h"
 
 #include "android_GenericPlayer.h"
