@@ -23,7 +23,7 @@
 #include <binder/IServiceManager.h>
 #include <media/IMediaHTTPService.h>
 #include <media/stagefright/foundation/ADebug.h>
-#include <media/stagefright/DataSourceFactory.h>
+#include <datasource/DataSourceFactory.h>
 #include <media/stagefright/InterfaceUtils.h>
 #include <media/stagefright/MediaBuffer.h>
 #include <media/stagefright/MediaExtractorFactory.h>
