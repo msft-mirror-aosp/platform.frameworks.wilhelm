@@ -218,6 +218,7 @@ cc_library_shared {
         "libaudioclient",
         "libaudiomanager",
         "libbinder",
+        "libdatasource",
         "libstagefright",
         "libstagefright_foundation",
         "libgui",
