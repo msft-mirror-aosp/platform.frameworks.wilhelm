@@ -86,6 +86,10 @@ cc_library_shared {
         "-Werror",
     ],
 
+    ldflags: [
+        "-Wl,--exclude-libs,ALL",
+    ],
+
     product_variables: {
         platform_sdk_version: {
             // API level
@@ -211,14 +215,12 @@ cc_library_shared {
         "libutils",
         "libmedia",
         "libmedia_omx",
-        "libmediaextractor",
         "libaudioclient",
         "libaudiomanager",
         "libbinder",
+        "libdatasource",
         "libstagefright",
         "libstagefright_foundation",
-        "libcutils",
-        "libnativewindow",
         "libgui",
         "libdl",
         "libandroid_runtime",
