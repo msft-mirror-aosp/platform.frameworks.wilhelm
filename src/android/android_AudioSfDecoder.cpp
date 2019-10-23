@@ -21,10 +21,10 @@
 #include "android/channels.h"
 
 #include <binder/IServiceManager.h>
-#include <media/IMediaHTTPService.h>
 #include <datasource/DataSourceFactory.h>
 #include <datasource/FileSource.h>
 #include <datasource/NuCachedSource2.h>
+#include <media/IMediaHTTPService.h>
 #include <media/stagefright/foundation/ADebug.h>
 #include <media/stagefright/InterfaceUtils.h>
 #include <media/stagefright/MediaBuffer.h>
@@ -200,7 +200,7 @@ void AudioSfDecoder::onPrepare() {
         return;
 
     case kDataLocatorUri:
-        dataSource = DataSourceFactory::CreateFromURI(
+        dataSource = DataSourceFactory::getInstance()->CreateFromURI(
                 NULL /* XXX httpService */, mDataLocator.uriRef);
         if (dataSource == NULL) {
             SL_LOGE("AudioSfDecoder::onPrepare(): Error opening %s", mDataLocator.uriRef);
