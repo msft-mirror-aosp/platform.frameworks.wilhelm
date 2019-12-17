@@ -18,7 +18,7 @@
 #define AUDIO_SF_DECODER_H_
 
 #include <media/DataSource.h>
-#include <media/MediaSource.h>
+#include <media/stagefright/MediaSource.h>
 
 #include "android_GenericPlayer.h"
 
