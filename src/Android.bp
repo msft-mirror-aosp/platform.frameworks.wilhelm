@@ -216,6 +216,7 @@ cc_library_shared {
         "libmedia",
         "libmedia_codeclist",
         "libaudioclient",
+        "libaudiofoundation",
         "libaudiomanager",
         "libbinder",
         "libdatasource",
@@ -224,7 +225,6 @@ cc_library_shared {
         "libgui",
         "libdl",
         "libandroid_runtime",
-
         "libstagefright_http_support",
     ],
 
