@@ -7,7 +7,10 @@ cc_library_static {
         "ut/slesutResult.c",
     ],
 
-    header_libs: ["libOpenSLES_headers"],
+    header_libs: [
+        "jni_headers",
+        "libOpenSLES_headers",
+    ],
     export_header_lib_headers: ["libOpenSLES_headers"],
     export_include_dirs: ["ut"],
 
@@ -195,12 +198,14 @@ cc_library_shared {
     ],
 
     header_libs: [
+        "jni_headers",
         "libmediametrics_headers",
         "libOpenSLES_headers",
         "media_plugin_headers",
     ],
 
     export_header_lib_headers: [
+        "jni_headers",
         "libOpenSLES_headers",
         "media_plugin_headers",
     ],
