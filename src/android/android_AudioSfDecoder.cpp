@@ -21,17 +21,13 @@
 #include "android/channels.h"
 
 #include <binder/IServiceManager.h>
-#include <datasource/DataSourceFactory.h>
-#include <datasource/FileSource.h>
-#include <datasource/NuCachedSource2.h>
 #include <media/IMediaHTTPService.h>
 #include <media/stagefright/foundation/ADebug.h>
+#include <media/stagefright/DataSourceFactory.h>
 #include <media/stagefright/InterfaceUtils.h>
 #include <media/stagefright/MediaBuffer.h>
 #include <media/stagefright/MediaExtractorFactory.h>
-#include <media/stagefright/MetaData.h>
 #include <media/stagefright/SimpleDecodingSource.h>
-#include <media/stagefright/foundation/MediaDefs.h>
 
 
 #define SIZE_CACHED_HIGH_BYTES 1000000
@@ -200,7 +196,7 @@ void AudioSfDecoder::onPrepare() {
         return;
 
     case kDataLocatorUri:
-        dataSource = DataSourceFactory::getInstance()->CreateFromURI(
+        dataSource = DataSourceFactory::CreateFromURI(
                 NULL /* XXX httpService */, mDataLocator.uriRef);
         if (dataSource == NULL) {
             SL_LOGE("AudioSfDecoder::onPrepare(): Error opening %s", mDataLocator.uriRef);
