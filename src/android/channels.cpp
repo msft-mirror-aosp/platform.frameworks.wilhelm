@@ -15,6 +15,7 @@
  */
 
 #include "sles_allinclusive.h"
+#include <cutils/bitops.h>
 #include <system/audio.h>
 #include <SLES/OpenSLES_Android.h>
 #include "channels.h"
