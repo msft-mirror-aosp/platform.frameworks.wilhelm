@@ -199,6 +199,7 @@ cc_library_shared {
 
     header_libs: [
         "jni_headers",
+        "libmediametrics_headers",
         "libOpenSLES_headers",
         "media_plugin_headers",
     ],
@@ -271,6 +272,9 @@ cc_library_shared {
         "liblog",
         "libnativewindow",
     ],
+    header_libs: [
+        "libmediametrics_headers",
+    ],
     version_script: "libOpenSLES.map.txt",
 }
 
@@ -300,6 +304,9 @@ cc_library_shared {
         "libwilhelm",
         "liblog",
         "libnativewindow",
+    ],
+    header_libs: [
+        "libmediametrics_headers",
     ],
     version_script: "libOpenMAXAL.map.txt",
 }
