@@ -1514,15 +1514,15 @@ static void checkAndSetPerformanceModePre(CAudioPlayer *pAudioPlayer)
     // no need to check the buffer queue size, application side
     // double-buffering (and more) is not a requirement for using fast tracks
 
-    // Check a blacklist of interfaces that are incompatible with fast tracks.
-    // The alternative, to check a whitelist of compatible interfaces, is
+    // Check a denylist of interfaces that are incompatible with fast tracks.
+    // The alternative, to check a allowlist of compatible interfaces, is
     // more maintainable but is too slow.  As a compromise, in a debug build
     // we use both methods and warn if they produce different results.
-    // In release builds, we only use the blacklist method.
-    // If a blacklisted interface is added after realization using
+    // In release builds, we only use the denylist method.
+    // If a denylisted interface is added after realization using
     // DynamicInterfaceManagement::AddInterface,
     // then this won't be detected but the interface will be ineffective.
-    static const unsigned blacklist[] = {
+    static const unsigned denylist[] = {
         MPH_BASSBOOST,
         MPH_EFFECTSEND,
         MPH_ENVIRONMENTALREVERB,
@@ -1532,10 +1532,10 @@ static void checkAndSetPerformanceModePre(CAudioPlayer *pAudioPlayer)
         MPH_VIRTUALIZER,
         MPH_ANDROIDEFFECT,
         MPH_ANDROIDEFFECTSEND,
-        // FIXME The problem with a blacklist is remembering to add new interfaces here
+        // FIXME The problem with a denylist is remembering to add new interfaces here
     };
-    for (unsigned i = 0; i < sizeof(blacklist)/sizeof(blacklist[0]); ++i) {
-        if (IsInterfaceInitialized(&pAudioPlayer->mObject, blacklist[i])) {
+    for (unsigned i = 0; i < sizeof(denylist)/sizeof(denylist[0]); ++i) {
+        if (IsInterfaceInitialized(&pAudioPlayer->mObject, denylist[i])) {
             //TODO: query effect for EFFECT_FLAG_HW_ACC_xx flag to refine mode
             allowedModes &=
                     ~(ANDROID_PERFORMANCE_MODE_LATENCY|ANDROID_PERFORMANCE_MODE_LATENCY_EFFECTS);
@@ -1543,11 +1543,11 @@ static void checkAndSetPerformanceModePre(CAudioPlayer *pAudioPlayer)
         }
     }
 #if LOG_NDEBUG == 0
-    bool blacklistResult = (
+    bool denylistResult = (
             (allowedModes &
                 (ANDROID_PERFORMANCE_MODE_LATENCY|ANDROID_PERFORMANCE_MODE_LATENCY_EFFECTS)) != 0);
-    bool whitelistResult = true;
-    static const unsigned whitelist[] = {
+    bool allowlistResult = true;
+    static const unsigned allowlist[] = {
         MPH_BUFFERQUEUE,
         MPH_DYNAMICINTERFACEMANAGEMENT,
         MPH_METADATAEXTRACTION,
@@ -1561,19 +1561,19 @@ static void checkAndSetPerformanceModePre(CAudioPlayer *pAudioPlayer)
         MPH_ANDROIDBUFFERQUEUESOURCE,
     };
     for (unsigned mph = MPH_MIN; mph < MPH_MAX; ++mph) {
-        for (unsigned i = 0; i < sizeof(whitelist)/sizeof(whitelist[0]); ++i) {
-            if (mph == whitelist[i]) {
+        for (unsigned i = 0; i < sizeof(allowlist)/sizeof(allowlist[0]); ++i) {
+            if (mph == allowlist[i]) {
                 goto compatible;
             }
         }
         if (IsInterfaceInitialized(&pAudioPlayer->mObject, mph)) {
-            whitelistResult = false;
+            allowlistResult = false;
             break;
         }
 compatible: ;
     }
-    if (whitelistResult != blacklistResult) {
-        SL_LOGW("whitelistResult != blacklistResult");
+    if (allowlistResult != denylistResult) {
+        SL_LOGW("allowlistResult != denylistResult");
     }
 #endif
     if (pAudioPlayer->mPerformanceMode == ANDROID_PERFORMANCE_MODE_LATENCY) {
@@ -1695,6 +1695,10 @@ SLresult android_audioPlayer_realize(CAudioPlayer *pAudioPlayer, SLboolean async
                 (void *) pAudioPlayer,                               // user
                 notificationFrames,                                  // see comment above
                 pAudioPlayer->mSessionId);
+
+        // Set it here so it can be logged by the destructor if the open failed.
+        pat->setCallerName(ANDROID_OPENSLES_CALLER_NAME);
+
         android::status_t status = pat->initCheck();
         if (status != android::NO_ERROR) {
             // AudioTracks are meant to be refcounted, so their dtor is protected.
