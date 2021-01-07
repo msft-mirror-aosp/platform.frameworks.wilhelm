@@ -49,9 +49,10 @@ template class android::KeyedVector<SLuint32,
 
 //-----------------------------------------------------------------------------
 // Inline functions to communicate with AudioService through the native AudioManager interface
-inline void audioManagerPlayerEvent(CAudioPlayer* ap, android::player_state_t event) {
+inline void audioManagerPlayerEvent(CAudioPlayer* ap, android::player_state_t event,
+        audio_port_handle_t deviceId) {
     if (ap->mObject.mEngine->mAudioManager != 0) {
-        ap->mObject.mEngine->mAudioManager->playerEvent(ap->mPIId, event);
+        ap->mObject.mEngine->mAudioManager->playerEvent(ap->mPIId, event, deviceId);
     }
 }
 
@@ -878,7 +879,7 @@ static void sfplayer_handlePrefetchEvent(int event, int data1, int data2, void* 
         if ((ap->mTrackPlayer->mAudioTrack != 0) && (!ap->mSeek.mLoopEnabled)) {
             ap->mTrackPlayer->mAudioTrack->stop();
         }
-        ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STOPPED);
+        ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STOPPED, AUDIO_PORT_HANDLE_NONE);
         }
         break;
 
@@ -2232,6 +2233,11 @@ void android_audioPlayer_setPlayState(CAudioPlayer *ap) {
 
     SLuint32 playState = ap->mPlay.mState;
 
+    audio_port_handle_t deviceId = AUDIO_PORT_HANDLE_NONE;
+    if (ap->mTrackPlayer != 0 && ap->mTrackPlayer->mAudioTrack != 0) {
+        deviceId = ap->mTrackPlayer->mAudioTrack->getRoutedDeviceId();
+    }
+
     switch (ap->mAndroidObjType) {
     case AUDIOPLAYER_FROM_PCM_BUFFERQUEUE:
         switch (playState) {
@@ -2249,7 +2255,7 @@ void android_audioPlayer_setPlayState(CAudioPlayer *ap) {
                 // instead of ap->mTrackPlayer->mAudioTrack->start();
                 if (!ap->mDeferredStart) {
                     // state change
-                    ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STARTED);
+                    ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STARTED, deviceId);
                 }
                 ap->mDeferredStart = true;
             }
@@ -2264,14 +2270,14 @@ void android_audioPlayer_setPlayState(CAudioPlayer *ap) {
         switch (playState) {
         case SL_PLAYSTATE_STOPPED:
             aplayer_setPlayState(ap->mAPlayer, playState, &ap->mAndroidObjState);
-            audioManagerPlayerEvent(ap, android::PLAYER_STATE_STOPPED);
+            audioManagerPlayerEvent(ap, android::PLAYER_STATE_STOPPED, AUDIO_PORT_HANDLE_NONE);
             break;
         case SL_PLAYSTATE_PAUSED:
             aplayer_setPlayState(ap->mAPlayer, playState, &ap->mAndroidObjState);
-            audioManagerPlayerEvent(ap, android::PLAYER_STATE_PAUSED);
+            audioManagerPlayerEvent(ap, android::PLAYER_STATE_PAUSED, AUDIO_PORT_HANDLE_NONE);
             break;
         case SL_PLAYSTATE_PLAYING:
-            audioManagerPlayerEvent(ap, android::PLAYER_STATE_STARTED);
+            audioManagerPlayerEvent(ap, android::PLAYER_STATE_STARTED, deviceId);
             aplayer_setPlayState(ap->mAPlayer, playState, &ap->mAndroidObjState);
             break;
         }
@@ -2481,7 +2487,8 @@ void android_audioPlayer_bufferQueue_onRefilled_l(CAudioPlayer *ap) {
     // queue was stopped when the queue become empty, we restart as soon as a new buffer
     // has been enqueued since we're in playing state
     if (ap->mTrackPlayer->mAudioTrack != 0) {
-        ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STARTED);
+        ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STARTED,
+                            ap->mTrackPlayer->mAudioTrack->getRoutedDeviceId());
         // instead of ap->mTrackPlayer->mAudioTrack->start();
         ap->mDeferredStart = true;
     }
