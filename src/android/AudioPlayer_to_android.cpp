@@ -1712,7 +1712,7 @@ SLresult android_audioPlayer_realize(CAudioPlayer *pAudioPlayer, SLboolean async
         }
 
         pAudioPlayer->mTrackPlayer->init(pat, android::PLAYER_TYPE_SLES_AUDIOPLAYER_BUFFERQUEUE,
-                usageForStreamType(pAudioPlayer->mStreamType));
+                usageForStreamType(pAudioPlayer->mStreamType), pAudioPlayer->mSessionId);
 
         // update performance mode according to actual flags granted to AudioTrack
         checkAndSetPerformanceModePost(pAudioPlayer);
@@ -1813,7 +1813,7 @@ SLresult android_audioPlayer_realize(CAudioPlayer *pAudioPlayer, SLboolean async
             pAudioPlayer->mPIId = pAudioPlayer->mObject.mEngine->mAudioManager->trackPlayer(
                     android::PLAYER_TYPE_SLES_AUDIOPLAYER_URI_FD,
                     usageForStreamType(pAudioPlayer->mStreamType), AUDIO_CONTENT_TYPE_UNKNOWN,
-                    pAudioPlayer->mTrackPlayer);
+                    pAudioPlayer->mTrackPlayer, pAudioPlayer->mSessionId);
         }
         }
         break;
