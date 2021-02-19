@@ -1318,8 +1318,8 @@ static void audioTrack_callBack_pullFromBuffQueue(int event, void* user, void *i
                 }
             }
 
-            // stop the track so it restarts playing faster when new data is enqueued
-            ap->mTrackPlayer->stop();
+            // The track will fall into underrun status when the queue is empty.
+            // The track will be automatically started when the next available buffer is enqueued.
         }
         interface_unlock_exclusive(&ap->mBufferQueue);
 
@@ -2483,16 +2483,6 @@ SLresult android_audioPlayer_setBufferingUpdateThresholdPerMille(CAudioPlayer *a
 
 //-----------------------------------------------------------------------------
 void android_audioPlayer_bufferQueue_onRefilled_l(CAudioPlayer *ap) {
-    // the AudioTrack associated with the AudioPlayer receiving audio from a PCM buffer
-    // queue was stopped when the queue become empty, we restart as soon as a new buffer
-    // has been enqueued since we're in playing state
-    if (ap->mTrackPlayer->mAudioTrack != 0) {
-        ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STARTED,
-                            ap->mTrackPlayer->mAudioTrack->getRoutedDeviceId());
-        // instead of ap->mTrackPlayer->mAudioTrack->start();
-        ap->mDeferredStart = true;
-    }
-
     // when the queue became empty, an underflow on the prefetch status itf was sent. Now the queue
     // has received new data, signal it has sufficient data
     if (IsInterfaceInitialized(&ap->mObject, MPH_PREFETCHSTATUS)) {
