@@ -29,6 +29,8 @@
 #define KEY_RECORDING_PRESET_PARAMSIZE  sizeof(SLuint32)
 #define KEY_PERFORMANCE_MODE_PARAMSIZE  sizeof(SLuint32)
 
+using android::media::permission::Identity;
+
 //-----------------------------------------------------------------------------
 // Internal utility functions
 //----------------------------
@@ -693,7 +695,7 @@ SLresult android_audioRecorder_realize(CAudioRecorder* ar, SLboolean async) {
             sampleRate,            // sample rate in Hertz
             sles_to_android_sampleFormat(df_pcm),               // format
             channelMask,           // channel mask
-            android::String16(),   // app ops
+            Identity(),            // client identity (will be filled in later)
             0,                     // frameCount
             audioRecorder_callback,// callback_t
             (void*)ar,             // user, callback data, here the AudioRecorder
