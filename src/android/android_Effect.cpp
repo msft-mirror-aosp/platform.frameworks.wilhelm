@@ -32,7 +32,7 @@
 
 #include <system/audio.h>
 
-using android::media::permission::Identity;
+using android::content::AttributionSourceState;
 
 static const int EQUALIZER_PARAM_SIZE_MAX = sizeof(effect_param_t) + 2 * sizeof(int32_t)
         + EFFECT_STRING_LEN_MAX;
@@ -667,7 +667,7 @@ bool android_fx_initEffectObj(audio_session_t sessionId, android::sp<android::Au
         const effect_uuid_t *type) {
     //SL_LOGV("android_fx_initEffectObj on session %d", sessionId);
 
-    effect = new android::AudioEffect(Identity());
+    effect = new android::AudioEffect(AttributionSourceState());
     effect->set(type, EFFECT_UUID_NULL,
             0,// priority
             0,// effect callback
@@ -808,7 +808,7 @@ SLresult android_genericFx_createEffect(IAndroidEffect* iae, SLInterfaceID pUuid
     }
 
     // create new effect
-    android::sp<android::AudioEffect> pFx = new android::AudioEffect(Identity());
+    android::sp<android::AudioEffect> pFx = new android::AudioEffect(AttributionSourceState());
     pFx->set(NULL, // not using type to create effect
             (const effect_uuid_t*)pUuid,
             0,// priority

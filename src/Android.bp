@@ -227,6 +227,7 @@ cc_library_shared {
     ],
 
     shared_libs: [
+        "framework-permission-aidl-cpp",
         "liblog",
         "libutils",
         "libmedia",
@@ -242,7 +243,6 @@ cc_library_shared {
         "libdl",
         "libandroid_runtime",
         "libstagefright_http_support",
-        "media_permission-aidl-cpp",
     ],
 
     include_dirs: [
