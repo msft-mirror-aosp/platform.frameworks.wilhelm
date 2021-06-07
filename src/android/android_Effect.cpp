@@ -667,7 +667,14 @@ bool android_fx_initEffectObj(audio_session_t sessionId, android::sp<android::Au
         const effect_uuid_t *type) {
     //SL_LOGV("android_fx_initEffectObj on session %d", sessionId);
 
-    effect = new android::AudioEffect(AttributionSourceState());
+    // TODO b/182392769: use attribution source util
+    AttributionSourceState attributionSource;
+    attributionSource.uid = VALUE_OR_FATAL(android::legacy2aidl_uid_t_int32_t(getuid()));
+    attributionSource.pid = VALUE_OR_FATAL(android::legacy2aidl_pid_t_int32_t(getpid()));
+    attributionSource.token = android::sp<android::BBinder>::make();
+
+    effect = android::sp<android::AudioEffect>::make(attributionSource);
+
     effect->set(type, EFFECT_UUID_NULL,
             0,// priority
             0,// effect callback
@@ -808,7 +815,14 @@ SLresult android_genericFx_createEffect(IAndroidEffect* iae, SLInterfaceID pUuid
     }
 
     // create new effect
-    android::sp<android::AudioEffect> pFx = new android::AudioEffect(AttributionSourceState());
+    // TODO b/182392769: use attribution source util
+    AttributionSourceState attributionSource;
+    attributionSource.uid = VALUE_OR_FATAL(android::legacy2aidl_uid_t_int32_t(getuid()));
+    attributionSource.pid = VALUE_OR_FATAL(android::legacy2aidl_pid_t_int32_t(getpid()));
+    attributionSource.token = android::sp<android::BBinder>::make();
+
+    const auto pFx = android::sp<android::AudioEffect>::make(attributionSource);
+
     pFx->set(NULL, // not using type to create effect
             (const effect_uuid_t*)pUuid,
             0,// priority
