@@ -233,7 +233,6 @@ cc_library_shared {
         "libmedia",
         "libmedia_codeclist",
         "libaudioclient",
-        "libaudioclient_aidl_conversion",
         "libaudiofoundation",
         "libaudiomanager",
         "libbinder",
