@@ -1,0 +1,13 @@
+// for frameworks/wilhelm
+{
+    "presubmit": [
+        {
+            "name": "AudioNativeTest",
+            "options" : [
+                {
+                    "include-annotation": "android.platform.test.annotations.Presubmit"
+                }
+            ]
+        }
+    ]
+}
