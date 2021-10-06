@@ -227,11 +227,13 @@ cc_library_shared {
     ],
 
     shared_libs: [
+        "framework-permission-aidl-cpp",
         "liblog",
         "libutils",
         "libmedia",
         "libmedia_codeclist",
         "libaudioclient",
+        "libaudioclient_aidl_conversion",
         "libaudiofoundation",
         "libaudiomanager",
         "libbinder",
