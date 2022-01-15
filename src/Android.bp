@@ -211,6 +211,7 @@ cc_library_shared {
         "jni_headers",
         "libmediametrics_headers",
         "libOpenSLES_headers",
+        "libstagefright_mpeg2support_headers",
         "media_plugin_headers",
     ],
 
@@ -244,10 +245,6 @@ cc_library_shared {
         "libdl",
         "libandroid_runtime",
         "libstagefright_http_support",
-    ],
-
-    include_dirs: [
-        "frameworks/av/media/libstagefright/mpeg2ts",
     ],
 
     export_shared_lib_headers: [
