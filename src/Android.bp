@@ -1,9 +1,11 @@
 package {
     // See: http://go/android-license-faq
-    default_applicable_licenses: [
-        "Android-Apache-2.0",
-        "frameworks_wilhelm_license",  // MIT
-    ],
+    // A large-scale-change added 'default_applicable_licenses' to import
+    // all of the 'license_kinds' from "frameworks_wilhelm_license"
+    // to get the below license kinds:
+    //   SPDX-license-identifier-Apache-2.0
+    //   SPDX-license-identifier-MIT
+    default_applicable_licenses: ["frameworks_wilhelm_license"],
 }
 
 cc_library_static {
@@ -209,7 +211,6 @@ cc_library_shared {
         "jni_headers",
         "libmediametrics_headers",
         "libOpenSLES_headers",
-        "libstagefright_mpeg2support_headers",
         "media_plugin_headers",
     ],
 
@@ -243,6 +244,10 @@ cc_library_shared {
         "libdl",
         "libandroid_runtime",
         "libstagefright_http_support",
+    ],
+
+    include_dirs: [
+        "frameworks/av/media/libstagefright/mpeg2ts",
     ],
 
     export_shared_lib_headers: [
