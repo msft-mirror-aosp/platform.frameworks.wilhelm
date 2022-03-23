@@ -21,7 +21,6 @@
 #include "android/android_GenericPlayer.h"
 #include <media/TrackPlayerBase.h>
 #include <audiomanager/IAudioManager.h>
-namespace android { class AudioRecordCallback; };
 #endif
 
 // Class structures
@@ -162,7 +161,6 @@ namespace android { class AudioRecordCallback; };
     enum AndroidObjectType mAndroidObjType;
     android::sp<android::AudioRecord> mAudioRecord;
     android::sp<android::CallbackProtector> mCallbackProtector;
-    android::sp<android::AudioRecordCallback> mCallbackHandle;
     audio_source_t mRecordSource;
     SLuint32 mPerformanceMode;
 #endif
