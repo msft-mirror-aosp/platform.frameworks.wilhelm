@@ -1049,8 +1049,6 @@ SLresult android_audioPlayer_checkSourceSink(CAudioPlayer *pAudioPlayer)
     const SLuint32 sinkLocatorType = *(SLuint32 *)pAudioSnk->pLocator;
     const SLuint32 sourceFormatType = *(SLuint32 *)pAudioSrc->pFormat;
 
-    const SLuint32 *df_representation = NULL; // pointer to representation field, if it exists
-
     switch (sourceLocatorType) {
     //------------------
     //   Buffer Queues
@@ -1060,12 +1058,7 @@ SLresult android_audioPlayer_checkSourceSink(CAudioPlayer *pAudioPlayer)
         // Buffer format
         switch (sourceFormatType) {
         //     currently only PCM buffer queues are supported,
-        case SL_ANDROID_DATAFORMAT_PCM_EX: {
-            const SLAndroidDataFormat_PCM_EX *df_pcm =
-                    (const SLAndroidDataFormat_PCM_EX *) pAudioSrc->pFormat;
-            // checkDataFormat() already checked representation
-            df_representation = &df_pcm->representation;
-            } // SL_ANDROID_DATAFORMAT_PCM_EX - fall through to next test.
+        case SL_ANDROID_DATAFORMAT_PCM_EX:
             FALLTHROUGH_INTENDED;
         case SL_DATAFORMAT_PCM: {
             // checkDataFormat() already did generic checks, now do the Android-specific checks
