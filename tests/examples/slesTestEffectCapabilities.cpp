@@ -27,7 +27,7 @@
 
 #define MAX_NUMBER_INTERFACES 1
 
-#define GUID_DISPLAY_LENGTH 35
+#define GUID_DISPLAY_LENGTH 37
 #define FX_NAME_LENGTH 64
 
 //-----------------------------------------------------------------
