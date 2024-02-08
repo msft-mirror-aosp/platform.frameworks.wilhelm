@@ -1,6 +1,7 @@
 // slesTest_playStream
 
 package {
+    default_team: "trendy_team_android_media_audio_framework",
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
