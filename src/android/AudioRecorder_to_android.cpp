@@ -236,17 +236,12 @@ SLresult android_audioRecorder_checkSourceSink(CAudioRecorder* ar) {
     const SLuint32 sinkLocatorType = *(SLuint32 *)pAudioSnk->pLocator;
     const SLuint32 sinkFormatType = *(SLuint32 *)pAudioSnk->pFormat;
 
-    const SLuint32 *df_representation = NULL; // pointer to representation field, if it exists
-
     // sink must be an Android simple buffer queue with PCM data format
     switch (sinkLocatorType) {
     case SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE: {
         switch (sinkFormatType) {
         case SL_ANDROID_DATAFORMAT_PCM_EX: {
-            const SLAndroidDataFormat_PCM_EX *df_pcm =
-                    (SLAndroidDataFormat_PCM_EX *) pAudioSnk->pFormat;
             // checkDataFormat() already checked representation
-            df_representation = &df_pcm->representation;
         } // SL_ANDROID_DATAFORMAT_PCM_EX - fall through to next test.
             FALLTHROUGH_INTENDED;
         case SL_DATAFORMAT_PCM: {
