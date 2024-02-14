@@ -1,6 +1,7 @@
 // Build the unit tests.
 
 package {
+    default_team: "trendy_team_android_media_audio_framework",
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
