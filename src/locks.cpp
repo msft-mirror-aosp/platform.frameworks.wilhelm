@@ -117,7 +117,8 @@ forward_progress:
     thiz->mFile = file;
     thiz->mLine = line;
     // not android_atomic_inc because we are already holding a mutex
-    ++thiz->mGeneration;
+    // use explicit add as mGeneration is a volatile for which ++v and v += are deprecated.
+    thiz->mGeneration = thiz->mGeneration + 1;
 }
 #else
 void object_lock_exclusive(IObject *thiz)
