@@ -37,11 +37,11 @@ static const char *kVideoMimeTypes[] = {
 static const size_t kNbVideoMimeTypes = sizeof(kVideoMimeTypes) / sizeof(kVideoMimeTypes[0]);
 
 // codec capabilities in the following arrays maps to the mime types defined in kVideoMimeTypes
-struct CodecCapabilities {
+struct CodecCaps {
     Vector<MediaCodecInfo::ProfileLevel> mProfileLevels;
 };
 
-static CodecCapabilities VideoDecoderCapabilities[kNbVideoMimeTypes];
+static CodecCaps VideoDecoderCapabilities[kNbVideoMimeTypes];
 static XAuint32 VideoDecoderNbProfLevel[kNbVideoMimeTypes];
 
 static XAuint32 NbSupportedDecoderTypes = 0;
