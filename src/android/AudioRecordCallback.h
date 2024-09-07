@@ -30,51 +30,54 @@ size_t audioRecorder_handleMoreData_lockRecord(CAudioRecorder* ar,
 //--------------------------------------------------------------------------------------------------
 namespace android {
 
-class AudioRecordCallback : public android::AudioRecord::IAudioRecordCallback {
+class AudioRecordCallback : public AudioRecord::IAudioRecordCallback {
   public:
-    AudioRecordCallback(CAudioRecorder * audioRecorder) : mAr(audioRecorder) {}
+    AudioRecordCallback(CAudioRecorder * audioRecorder) : mAr(audioRecorder),
+            mCallbackProtector(mAr->mCallbackProtector) {}
     AudioRecordCallback(const AudioRecordCallback&) = delete;
     AudioRecordCallback& operator=(const AudioRecordCallback&) = delete;
 
   private:
-    size_t onMoreData(const android::AudioRecord::Buffer& buffer) override {
-        if (!android::CallbackProtector::enterCbIfOk(mAr->mCallbackProtector)) {
+    size_t onMoreData(const AudioRecord::Buffer& buffer) override {
+        if (!CallbackProtector::enterCbIfOk(mCallbackProtector)) {
             // it is not safe to enter the callback (the track is about to go away)
             return buffer.size(); // replicate existing behavior
         }
         size_t bytesRead = audioRecorder_handleMoreData_lockRecord(mAr, buffer);
-        mAr->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
         return bytesRead;
     }
 
 
     void onOverrun() override {
-        if (!android::CallbackProtector::enterCbIfOk(mAr->mCallbackProtector)) {
+        if (!CallbackProtector::enterCbIfOk(mCallbackProtector)) {
             // it is not safe to enter the callback (the track is about to go away)
             return;
         }
         audioRecorder_handleOverrun_lockRecord(mAr);
-        mAr->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
     }
     void onMarker(uint32_t) override {
-        if (!android::CallbackProtector::enterCbIfOk(mAr->mCallbackProtector)) {
+        if (!CallbackProtector::enterCbIfOk(mCallbackProtector)) {
             // it is not safe to enter the callback (the track is about to go away)
             return;
         }
 
         audioRecorder_handleMarker_lockRecord(mAr);
-        mAr->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
     }
     void onNewPos(uint32_t) override {
-        if (!android::CallbackProtector::enterCbIfOk(mAr->mCallbackProtector)) {
+        if (!CallbackProtector::enterCbIfOk(mCallbackProtector)) {
             // it is not safe to enter the callback (the track is about to go away)
             return;
         }
 
         audioRecorder_handleNewPos_lockRecord(mAr);
-        mAr->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
     }
+
     CAudioRecorder * const mAr;
+    const sp<CallbackProtector> mCallbackProtector;
 };
 
 } // namespace android

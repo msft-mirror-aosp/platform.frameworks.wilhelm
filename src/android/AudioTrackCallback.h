@@ -33,46 +33,47 @@ size_t audioTrack_handleMoreData_lockPlay(CAudioPlayer* ap,
 namespace android {
 class AudioTrackCallback : public AudioTrack::IAudioTrackCallback {
   public:
-    AudioTrackCallback(CAudioPlayer * player) : mAp(player) {}
+    AudioTrackCallback(CAudioPlayer * player) : mAp(player),
+            mCallbackProtector(mAp->mCallbackProtector) {}
 
     size_t onMoreData(const AudioTrack::Buffer& buffer) override {
-        if (!android::CallbackProtector::enterCbIfOk(mAp->mCallbackProtector)) {
+        if (!android::CallbackProtector::enterCbIfOk(mCallbackProtector)) {
           // it is not safe to enter the callback (the track is about to go away)
           return buffer.size(); // duplicate existing behavior
         }
         size_t bytesCopied = audioTrack_handleMoreData_lockPlay(mAp, buffer);
-        mAp->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
         return bytesCopied;
       }
 
     void onUnderrun() override {
-        if (!android::CallbackProtector::enterCbIfOk(mAp->mCallbackProtector)) {
+        if (!android::CallbackProtector::enterCbIfOk(mCallbackProtector)) {
           // it is not safe to enter the callback (the track is about to go away)
             return;
         }
         audioTrack_handleUnderrun_lockPlay(mAp);
-        mAp->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
     }
 
     void onLoopEnd([[maybe_unused]] int32_t loopsRemaining) override {
         SL_LOGE("Encountered loop end for CAudioPlayer %p", mAp);
     }
     void onMarker([[maybe_unused]] uint32_t markerPosition) override {
-        if (!android::CallbackProtector::enterCbIfOk(mAp->mCallbackProtector)) {
+        if (!android::CallbackProtector::enterCbIfOk(mCallbackProtector)) {
           // it is not safe to enter the callback (the track is about to go away)
           return;
         }
         audioTrack_handleMarker_lockPlay(mAp);
-        mAp->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
     }
 
     void onNewPos([[maybe_unused]] uint32_t newPos) override {
-        if (!android::CallbackProtector::enterCbIfOk(mAp->mCallbackProtector)) {
+        if (!android::CallbackProtector::enterCbIfOk(mCallbackProtector)) {
           // it is not safe to enter the callback (the track is about to go away)
           return;
         }
         audioTrack_handleNewPos_lockPlay(mAp);
-        mAp->mCallbackProtector->exitCb();
+        mCallbackProtector->exitCb();
     }
     void onBufferEnd() override {
         SL_LOGE("Encountered buffer end for CAudioPlayer %p", mAp);
@@ -94,5 +95,6 @@ class AudioTrackCallback : public AudioTrack::IAudioTrackCallback {
     AudioTrackCallback(const AudioTrackCallback&) = delete;
     AudioTrackCallback& operator=(const AudioTrackCallback&) = delete;
     CAudioPlayer* const mAp;
+    const sp<CallbackProtector> mCallbackProtector;
 };
 }  // namespace android
