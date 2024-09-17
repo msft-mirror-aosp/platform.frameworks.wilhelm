@@ -154,7 +154,7 @@ static SLresult AllocPlayerRoutingProxy(IAndroidConfiguration* iConfig, jobject*
     SLresult result;
 
     IObject* configObj = iConfig->mThis;                // get corresponding object
-    android::AudioTrack* pAudioTrack = ((CAudioPlayer*)configObj)->mTrackPlayer->mAudioTrack.get();
+    auto audioTrack = ((CAudioPlayer*)configObj)->mTrackPlayer->getAudioTrack();
 
     JNIEnv* j_env = android::AndroidRuntime::getJNIEnv();
 
@@ -163,7 +163,7 @@ static SLresult AllocPlayerRoutingProxy(IAndroidConfiguration* iConfig, jobject*
     jobject localObjRef =
         j_env->NewObject(gClsAudioTrackRoutingProxy,
                          gMidAudioTrackRoutingProxy_ctor,
-                         (jlong)pAudioTrack /*audioTrackObjInLong*/);
+                         (jlong)audioTrack.get() /*audioTrackObjInLong*/);
 
     *proxyObj = j_env->NewGlobalRef(localObjRef);
 
@@ -381,4 +381,3 @@ void IAndroidConfiguration_deinit(void *self)
         thiz->mItf->ReleaseJavaProxy(&thiz->mItf, SL_ANDROID_JAVA_PROXY_ROUTING);
     }
 }
-
