@@ -511,8 +511,9 @@ android::status_t android_fxSend_attach(CAudioPlayer* ap, bool attach,
     //  mAPlayer == 0 && mAudioTrack != 0 means playing PCM audio
     //  mAPlayer == 0 && mAudioTrack == 0 means player not fully configured yet
     // The asserts document and verify this.
+    auto audioTrack = ap->mTrackPlayer->getAudioTrack();
     if (ap->mAPlayer != 0) {
-        assert(ap->mTrackPlayer->mAudioTrack == 0);
+        assert(audioTrack == 0);
         if (attach) {
             ap->mAPlayer->attachAuxEffect(pFx->id());
             ap->mAPlayer->setAuxEffectSendLevel( sles_to_android_amplification(sendLevel) );
@@ -522,7 +523,7 @@ android::status_t android_fxSend_attach(CAudioPlayer* ap, bool attach,
         return android::NO_ERROR;
     }
 
-    if (ap->mTrackPlayer->mAudioTrack == 0) {
+    if (audioTrack == 0) {
         // the player doesn't have an AudioTrack at the moment, so store this info to use it
         // when the AudioTrack becomes available
         if (attach) {
@@ -536,16 +537,15 @@ android::status_t android_fxSend_attach(CAudioPlayer* ap, bool attach,
     }
 
     if (attach) {
-        android::status_t status = ap->mTrackPlayer->mAudioTrack->attachAuxEffect(pFx->id());
+        android::status_t status = audioTrack->attachAuxEffect(pFx->id());
         //SL_LOGV("attachAuxEffect(%d) returned %d", pFx->id(), status);
         if (android::NO_ERROR == status) {
-            status =
-                ap->mTrackPlayer->mAudioTrack->setAuxEffectSendLevel(
-                        sles_to_android_amplification(sendLevel) );
+            status = audioTrack->setAuxEffectSendLevel(
+                    sles_to_android_amplification(sendLevel) );
         }
         return status;
     } else {
-        return ap->mTrackPlayer->mAudioTrack->attachAuxEffect(0);
+        return audioTrack->attachAuxEffect(0);
     }
 }
 
@@ -593,17 +593,18 @@ android::status_t android_fxSend_setSendLevel(CAudioPlayer* ap, SLmillibel sendL
     // we keep track of the send level, independently of the current audio player level
     ap->mAuxSendLevel = sendLevel - ap->mVolume.mLevel;
 
+    auto audioTrack = ap->mTrackPlayer->getAudioTrack();
     if (ap->mAPlayer != 0) {
-        assert(ap->mTrackPlayer->mAudioTrack == 0);
+        assert(audioTrack == 0);
         ap->mAPlayer->setAuxEffectSendLevel( sles_to_android_amplification(sendLevel) );
         return android::NO_ERROR;
     }
 
-    if (ap->mTrackPlayer->mAudioTrack == 0) {
+    if (audioTrack == 0) {
         return android::NO_ERROR;
     }
 
-    return ap->mTrackPlayer->mAudioTrack->setAuxEffectSendLevel(
+    return audioTrack->setAuxEffectSendLevel(
             sles_to_android_amplification(sendLevel) );
 }
 
