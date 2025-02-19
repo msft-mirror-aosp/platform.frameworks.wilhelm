@@ -2226,6 +2226,7 @@ void android_audioPlayer_setPlayState(CAudioPlayer *ap) {
             if (audioTrack != 0) {
                 // instead of ap->mTrackPlayer->mAudioTrack->start();
                 if (!ap->mDeferredStart) {
+                    ap->mTrackPlayer->baseUpdateDeviceIds(deviceIds);
                     // state change
                     ap->mTrackPlayer->reportEvent(android::PLAYER_STATE_STARTED, deviceIds);
                 }
