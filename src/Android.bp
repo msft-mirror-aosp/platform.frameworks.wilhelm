@@ -88,6 +88,7 @@ cc_library_shared {
         "-fvisibility=hidden",
         "-DLI_API=__attribute__((visibility(\"default\")))",
 
+        "-Wno-cast-function-type-mismatch",
         "-Wno-multichar",
         "-Wno-invalid-offsetof",
 
