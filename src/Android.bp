@@ -10,7 +10,6 @@ cc_library_static {
     name: "libOpenSLESUT",
 
     srcs: [
-        "assert.cpp",
         "ut/OpenSLESUT.c",
         "ut/slesutResult.c",
     ],
@@ -53,7 +52,6 @@ cc_library_static {
     ],
 
     srcs: [
-        "assert.cpp",
         "MPH_to.c",
         "handlers.c",
     ],
@@ -112,7 +110,6 @@ cc_library_shared {
 
     srcs: [
         "OpenSLES_IID.cpp",
-        "assert.cpp",
         "classes.cpp",
         "data.cpp",
         "devices.cpp",
@@ -260,7 +257,6 @@ cc_library_shared {
     srcs: [
         "sl_entry.cpp",
         "sl_iid.cpp",
-        "assert.cpp",
     ],
     include_dirs: [
         "frameworks/native/include/media/openmax",
@@ -293,7 +289,6 @@ cc_library_shared {
     srcs: [
         "xa_entry.cpp",
         "xa_iid.cpp",
-        "assert.cpp",
     ],
     include_dirs: [
         "frameworks/native/include/media/openmax",
