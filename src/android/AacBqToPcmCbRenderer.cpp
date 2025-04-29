@@ -67,7 +67,7 @@ static size_t getAdtsFrameSize(const uint8_t *data, off64_t offset, size_t size)
         return 0;
     }
 
-    SL_LOGV("AacBqToPcmCbRenderer::getAdtsFrameSize() returns %u", frameSize);
+    SL_LOGV("AacBqToPcmCbRenderer::getAdtsFrameSize() returns %ld", frameSize);
 
     return frameSize;
 }
