@@ -99,7 +99,7 @@ void GenericPlayer::setDataSource(const char *uri) {
 
 
 void GenericPlayer::setDataSource(int fd, int64_t offset, int64_t length, bool closeAfterUse) {
-    SL_LOGV("GenericPlayer::setDataSource(fd=%d, offset=%lld, length=%lld, closeAfterUse=%s)", fd,
+    SL_LOGV("GenericPlayer::setDataSource(fd=%d, offset=%ld, length=%ld, closeAfterUse=%s)", fd,
             offset, length, closeAfterUse ? "true" : "false");
     resetDataLocator();
 
@@ -166,7 +166,7 @@ void GenericPlayer::stop() {
 
 
 void GenericPlayer::seek(int64_t timeMsec) {
-    SL_LOGV("GenericPlayer::seek %lld", timeMsec);
+    SL_LOGV("GenericPlayer::seek %ld", timeMsec);
     if (timeMsec < 0 && timeMsec != ANDROID_UNKNOWN_TIME) {
         SL_LOGE("GenericPlayer::seek error, can't seek to negative time %" PRId64 "ms", timeMsec);
         return;
