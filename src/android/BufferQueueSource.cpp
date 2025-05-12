@@ -55,7 +55,7 @@ status_t BufferQueueSource::initCheck() const {
 }
 
 ssize_t BufferQueueSource::readAt(off64_t offset, void *data, size_t size) {
-    SL_LOGD("BufferQueueSource::readAt(offset=%lld, data=%p, size=%d)", offset, data, size);
+    SL_LOGD("BufferQueueSource::readAt(offset=%ld, data=%p, size=%zu)", offset, data, size);
 
     if (mEosReached) {
         // once EOS has been received from the buffer queue, you can't read anymore
