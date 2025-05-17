@@ -242,7 +242,7 @@ status_t AacAdtsSource::read(
     }
 
     size_t frameSize, frameSizeWithoutHeader;
-    SL_LOGV("AacAdtsSource::read() offset=%lld", mOffset);
+    SL_LOGV("AacAdtsSource::read() offset=%ld", mOffset);
     if ((frameSize = getFrameSize(mDataSource, mOffset)) == 0) {
         // EOS is normal, not an error
         SL_LOGV("AacAdtsSource::read() returns EOS");
