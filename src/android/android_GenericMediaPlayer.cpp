@@ -24,6 +24,8 @@
 #include <media/IMediaPlayerService.h>
 #include <media/stagefright/foundation/ADebug.h>
 #include <media/mediaplayer.h>  // media_event_type media_error_type media_info_type
+#include <gui/Flags.h> // Remove with MediaSurfaceType
+#include <gui/Surface.h>
 
 // default delay in Us used when reposting an event when the player is not ready to accept
 // the command yet. This is for instance used when seeking on a MediaPlayer that's still preparing
@@ -306,7 +308,7 @@ void GenericMediaPlayer::setVideoSurfaceTexture(const sp<IGraphicBufferProducer>
         return;
     }
     if ((mStateFlags & kFlagPrepared) && (mPlayer != 0)) {
-        mPlayer->setVideoSurfaceTexture(bufferProducer);
+        mPlayer->setVideoSurfaceTexture(mediaflagtools::igbpToSurfaceType(bufferProducer));
     }
     mVideoSurfaceTexture = bufferProducer;
 }
@@ -336,7 +338,8 @@ void GenericMediaPlayer::onPrepare() {
     if (!(mStateFlags & (kFlagPrepared | kFlagPreparedUnsuccessfully)) && (mPlayer != 0)) {
         if (mHasVideo) {
             if (mVideoSurfaceTexture != 0) {
-                mPlayer->setVideoSurfaceTexture(mVideoSurfaceTexture);
+                mPlayer->setVideoSurfaceTexture(
+                    mediaflagtools::igbpToSurfaceType(mVideoSurfaceTexture));
             }
         }
         mPlayer->setAudioStreamType(mPlaybackParams.streamType);

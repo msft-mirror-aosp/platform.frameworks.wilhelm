@@ -25,6 +25,7 @@
 #include <media/stagefright/foundation/MediaKeys.h>
 #include <mpeg2ts/ATSParser.h>
 #include <binder/IPCThreadState.h>
+#include <gui/Surface.h>
 
 //--------------------------------------------------------------------------------------------------
 namespace android {
