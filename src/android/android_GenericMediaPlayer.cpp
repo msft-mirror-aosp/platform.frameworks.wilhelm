@@ -301,16 +301,16 @@ void GenericMediaPlayer::getPositionMsec(int* msec) {
 }
 
 //--------------------------------------------------
-void GenericMediaPlayer::setVideoSurfaceTexture(const sp<IGraphicBufferProducer> &bufferProducer) {
+void GenericMediaPlayer::setVideoSurfaceTexture(const sp<MediaSurfaceType> &surface) {
     SL_LOGV("GenericMediaPlayer::setVideoSurfaceTexture()");
     // FIXME bug - race condition, should do in looper
-    if (mVideoSurfaceTexture.get() == bufferProducer.get()) {
+    if (mVideoSurfaceTexture.get() == surface.get()) {
         return;
     }
     if ((mStateFlags & kFlagPrepared) && (mPlayer != 0)) {
-        mPlayer->setVideoSurfaceTexture(mediaflagtools::igbpToSurfaceType(bufferProducer));
+        mPlayer->setVideoSurfaceTexture(surface);
     }
-    mVideoSurfaceTexture = bufferProducer;
+    mVideoSurfaceTexture = surface;
 }
 
 //--------------------------------------------------
@@ -338,8 +338,7 @@ void GenericMediaPlayer::onPrepare() {
     if (!(mStateFlags & (kFlagPrepared | kFlagPreparedUnsuccessfully)) && (mPlayer != 0)) {
         if (mHasVideo) {
             if (mVideoSurfaceTexture != 0) {
-                mPlayer->setVideoSurfaceTexture(
-                    mediaflagtools::igbpToSurfaceType(mVideoSurfaceTexture));
+                mPlayer->setVideoSurfaceTexture(mVideoSurfaceTexture);
             }
         }
         mPlayer->setAudioStreamType(mPlaybackParams.streamType);

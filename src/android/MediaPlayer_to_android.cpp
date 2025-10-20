@@ -24,6 +24,7 @@
 //    so no need to #include "android_GenericMediaPlayer.h"
 #include "android_LocAVPlayer.h"
 #include "android_StreamPlayer.h"
+#include <gui/Flags.h> // Remove with MediaSurfaceType
 
 //-----------------------------------------------------------------------------
 static void player_handleMediaPlayerEventNotifications(int event, int data1, int data2, void* user)
@@ -745,14 +746,13 @@ SLresult android_Player_setNativeWindow(CMediaPlayer *mp, ANativeWindow *nativeW
     } else {
         switch (value) {
         case NATIVE_WINDOW_SURFACE: { // Surface
-            SL_LOGV("Displaying on ANativeWindow of type NATIVE_WINDOW_SURFACE");
-            android::sp<android::Surface> surface(
-                    static_cast<android::Surface *>(nativeWindow));
-            android::sp<android::IGraphicBufferProducer> nativeSurfaceTexture(
-                    surface->getIGraphicBufferProducer());
-            mp->mAVPlayer->setVideoSurfaceTexture(nativeSurfaceTexture);
-            result = SL_RESULT_SUCCESS;
-            } break;
+          SL_LOGV("Displaying on ANativeWindow of type NATIVE_WINDOW_SURFACE");
+          android::sp<android::Surface> surface(
+              static_cast<android::Surface*>(nativeWindow));
+          mp->mAVPlayer->setVideoSurfaceTexture(
+              android::mediaflagtools::surfaceToSurfaceType(surface));
+          result = SL_RESULT_SUCCESS;
+        } break;
         case NATIVE_WINDOW_FRAMEBUFFER:              // FramebufferNativeWindow
             FALLTHROUGH_INTENDED;
         default:
