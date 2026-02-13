@@ -230,6 +230,7 @@ cc_library_shared {
         "libutils",
         "libmedia",
         "libmedia_codeclist",
+        "libaudiobase",
         "libaudioclient",
         "libaudioclient_aidl_conversion",
         "libaudiofoundation",
